@@ -1,0 +1,45 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage[hmargin=2cm,vmargin=1cm]{geometry}
+\begin{document}
+    \noindent
+    \thispagestyle{empty} \\
+    Nom: CodeBinaire \\
+    Utilise: Bit, Naturel, Booleen \\
+    Opérations: \begin{itemize}[label=$\ $, leftmargin=2cm]
+        \item codeBinaire: $ \varnothing \rightarrow $ CodeBinaire 
+        \item longueur: CodeBinaire $ \rightarrow $ Naturel 
+        \item iemeBit: CodeBinaire $ \times $ Naturel $ \nrightarrow $ Bit
+        \item ajouterBit: CodeBinaire $ \times $ Bit $ \rightarrow $ CodeBinaire
+        \item modifierIemeBit: CodeBinaire $ \times $ Naturel $ \times $ Bit $ \nrightarrow $ CodeBinaire
+        \item supprimerIemeBit: CodeBinaire $ \times $ Naturel $ \nrightarrow $ CodeBinaire
+        \item egal: CodeBinaire $ \times $ CodeBinaire $ \rightarrow $ Booleen 
+    \end{itemize}
+
+    Sémantiques: \begin{itemize}[label=$\ $, leftmargin=2cm]
+        \item codeBinaire: initialise un code binaire vide
+        \item longueur: retourne la taille du code binaire
+        \item iemeBit: retourne le ième caractère du code binaire
+        \item ajouterBit: aujoute un bit à la fin d'un code binaire
+        \item modifierIemeBit: modifie le ieme bit d'un code binaire
+        \item supprimerIemeBit: supprime le ieme bit d'un code binaire
+        \item egal: opérateur d'égalité
+    \end{itemize}
+
+    Axiomes: \begin{itemize}[label=$\- $, leftmargin=2cm]
+        \item longueur(codeBinaire()) = 0
+        \item longueur(ajouterBit(cb, b)) = longueur(cb) + 1
+        \item iemeBit(ajouterBit(cb, b), longueur(cb) + 1) = b
+        \item iemeBit(modifierIemeBit(cb, i, b), i) = b
+        \item longueur(supprimerIemeBit(cb, i)) = longueur(cb) - 1
+        \item egal(cb1, cb2) = VRAI $ \Leftrightarrow $ cb1 = cb2
+    \end{itemize}
+
+    Préconditions: \begin{itemize}[label=$\- $, leftmargin=2cm]
+        \item iemeBit(cb, i) : 0 $ < $ i $ \leq $ longueur(cb)
+        \item modifierIemeBit(cb, i, b) : 0 $ < $ i $ \leq $ longueur(cb)
+        \item supprimerIemeBit(cb, i) : 0 $ < $ i $ \leq $ longueur(cb)
+    \end{itemize}
+\end{document}

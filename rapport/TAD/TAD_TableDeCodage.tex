@@ -1,0 +1,34 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage[hmargin=2cm,vmargin=1cm]{geometry}
+\begin{document}
+    \noindent
+    \thispagestyle{empty} \\
+    Nom: TableDeCodage \\
+    Utilise: CodeBinaire, Booleen, Naturel, Octet \\
+    Opérations: \begin{itemize}[label=$\ $, leftmargin=2cm]
+        \item creerTableDeCodage:  $\varnothing$ $\rightarrow$ TableDeCodage 
+        \item ajouterOctet: TableDeCodage $\times$ Octet $\times$ CodeBinaire $\nrightarrow$ TableDeCodage 
+        \item supprimerOctet: TableDeCodage $\times$ Octet $ \nrightarrow $ TableDeCodage
+        \item recupererCodeBinaire: TableDeCodage $\times$ Octet $\nrightarrow$ CodeBinaire
+        \item estVide: TableDeCodage $\rightarrow$ Booleen
+        \item octetPresent: TableDeCodage $\times$ Octet $\rightarrow$ Booleen
+        \item nbOctets : TableDeCodage $\rightarrow$ Naturel
+    \end{itemize}
+    Axiomes: \begin{itemize}[label=$\- $, leftmargin=2cm]
+        \item estVide(creerTableDeCodage())
+        \item non estVide(ajouterOctet(table,octet,code))
+        \item recupererCode(ajouterOctet(table,octet,code),octet) = code
+        \item octetPresent(ajouterOctet(table,octet,code),octet)
+        \item non octetPresent(creerTableDeCodage())
+        \item non octetPresent(supprimerOctet(table,octet),octet) 
+        \item nbOctets(creerTableDeCodage()) = 0
+    \end{itemize}
+    Préconditions: \begin{itemize}[label=$\- $, leftmargin=2cm]
+        \item ajouterOctet(table,octet,code) : non octetPresent(table,octet)
+        \item supprimerOctet(table,octet) : octetPresent(table,octet)
+        \item recupererCodeBinaire(table,octet): octetPresent(octet)
+    \end{itemize}
+\end{document}

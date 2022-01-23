@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage[hmargin=2cm,vmargin=0cm]{geometry}
+\begin{document}
+    \noindent
+    Nom: ArbreDeHuffman \\
+    Paramètre: Element \\
+    Utilise: Booléen,Naturel,Octet \\
+    Opérations: \begin{itemize}[label=$\ $, leftmargin=2cm, itemsep=0cm]
+        \item creerArbreHuffman: $\rightarrow $ ArbreDeHuffman
+        \item estVide: ArbreDeHuffman $ \rightarrow$ Booleen
+        \item estFeuille: ArbreDeHuffman$  \nrightarrow $ Booleen
+        \item insérerRacine: Naturel  $ \times $  ArbreDeHuffman  $ \times $  ArbreDeHuffman $ \nrightarrow$  ArbreDeHuffman
+        \item insérerFeuille: Octet  $ \times $  Naturel  $ \times $  ArbreDeHuffman $ \times $ ArbreDeHuffman $  \rightarrow $ ArbreDeHuffman
+        \item obtenirPoids: ArbreDeHuffman $ \nrightarrow $ Naturel 
+        \item obtenirOctet: ArbreDeHuffman $ \nrightarrow$  Octet 
+        \item obtenirFilsGauche: ArbreDeHuffman $ \rightarrow $ ArbreDeHuffman
+        \item obtenirFilsDroit: ArbreDeHuffman $ \rightarrow$  ArbreDeHuffman
+        \item supprimer : ArbreDeHuffman $ \rightarrow$
+        \item comparer : ArbreDeHuffman $ \times $  ArbreDeHuffman $ \nrightarrow$ Entier
+    \end{itemize}
+    
+    Sémantique: \begin{itemize}[label=$\- $, leftmargin=2cm, itemsep=0cm]
+        \item creerArbreHuffman: Création d'un arbre vide.
+        \item estVide: Retourne vrai si l'arbre est vide, sinon faux.
+        \item estFeuille: Retourne vrai si le fils gauche et le fils droit sont vides, faux sinon.
+        \item insererRacine: Retourne un arbre à partir de deux arbre et d'une racine.
+        \item insererFeuille: Ajoute une feuille à l'arbre.
+        \item obtenirPoids: Permet d'obtenir le poids de la racine.
+        \item obtenirOctet: Permet d'obtenir l'octet d'une feuille.
+        \item obtenirFilsGauche: Permet d'obtenir le sous arbre gauche.
+        \item obtenirFilsDroit: Permet d'obtenir le sous arbre droit.
+        \item supprimer : Supprime l'arbre.
+        \item comparer : Compare 2 arbres (retourne 1 si poids de a1 $>$ poids de a2, -1 si poids de a1 $<$ poids de a2 et 1 s'ils sont égaux).
+        
+    
+    \end{itemize}
+    
+    
+    Axiomes: \begin{itemize}[label=$\- $, leftmargin=2cm, itemsep=0cm]
+        
+        \item estVide(creerArbreHuffman())
+        \item non estVide(insererRacine(poids,a1,a2))
+        \item obtenirFilsGauche(insererRacine(poids,aDroit,aGauche))=aGauche
+        \item obtenirFilsDroit(insererRacine(poids,aDroit,aGauche))=aDroit
+        \item obtenirPoids(insererRacine(poids,a1,a2))=poids
+        \item obtenirOctet(insererFeuille(octet,poids,a1,a2))=octet
+         
+    \end{itemize}
+    Préconditions: \begin{itemize}[label=$\- $, leftmargin=2cm, itemsep=0cm]
+        \item estFeuille(a) : non(estVide(a))
+        \item insérerRacine(poids,a1, a2) : non(estvide(a1)) et non(estVide(a2))
+        \item obtenirPoids(a) : non(estVide(a))
+        \item obtenirOctet(a) : estFeuille(a)
+        \item comparer(a1,a2) : non(estvide(a1)) et non(estVide(a2))
+    \end{itemize}
+\end{document}

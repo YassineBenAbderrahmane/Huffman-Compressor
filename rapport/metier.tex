@@ -1,0 +1,227 @@
+Le contenu de cette section présente la conception des structures qui ont été mises en évidence
+\subsection*{Conception préliminaire:}
+\begin{itemize}[label=$\ $, leftmargin=2cm]
+    \item calculerStats(E/S fichier: Fichier, stats: Statistiques) 
+    \item genererArbre(stats : Statistiques) : ArbreDeHuffman 
+    \item majFileDePriorite(E/S file : FileDePriorite) 
+    \item parcourirArbreR(E/S:tdc:TableDeCodage,E:arbre:ArbreDeHuffmann, code:codeBinaire) 
+    \item gererBuffer(E code: CodeBinaire, E/S buffer: CodeBinaire, fichier: fichierBinaire) 
+    \item FichierOriginal(E/S f : fichier, E a:ArbreDeHuffman) 
+    \item Compresser(E FichierD: Fichier) 
+    \item Decompresser(E FichierD: Fichier; S erreurFichier:Booleen)
+\end{itemize}
+
+\subsection*{Conception détaillée:}
+%calculerStats
+\begin{procedure}
+    \SetAlgoLined
+    \caption{calculerStats(E/S fichier: Fichier, stats: Statistiques)}
+    \Declaration{
+        octet: Octet \\
+    }
+    \Deb{
+        \Tq{non finFichier(fichier.fb)}{
+            octet $\gets$ lireOctet(fichier.fb) \\
+            fichier.longueur = fichier.longueur + 1; \\
+            incrementerStats(stats, octet)
+        }
+    }
+\end{procedure}
+
+
+%genererArbre
+\begin{function}
+    \SetAlgoLined
+    \caption{genererArbre(stats : Statistiques) : ArbreDeHuffman}
+    \Declaration{file : FileDePriorite, arbreFinal : ArbreDeHuffman}
+    \Deb{
+        file $ \gets $ statsEnFileDArbre(stats) \\
+        \Tq{ non(arbreComplet(file)) }{
+            majFileDePriorite(file)
+        }
+        arbreFinal $\gets$ obtenirArbre(file) \\
+        defiler(file) \\
+        \Retour{arbreFinal}
+    }
+\end{function}
+
+%majFileDePriorite
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{majFileDePriorite(E/S file : FileDePriorite)}
+    \Declaration{a1,a2,arbreFusion : ArbreDeHuffman}
+    \Deb{
+        a1 $ \gets $ obtenirArbre(file) \\
+        defiler(file) \\
+        a2 $ \gets $ obtenirArbre(file) \\
+        defiler(file) \\
+        arbreFusion $ \gets $ fusionner2Arbres(a1,a2)\\
+        enfiler(file,arbreFusion)\\
+        }
+    \end{procedure}
+
+
+%genererTable
+%parcourirArbreRecursif
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{parcourirArbreR(E/S:tdc:TableDeCodage,E:arbre:ArbreDeHuffmann, code:codeBinaire)}
+    \Deb{
+    \Si{estFeuille(arbre)}{associerCodeBinaire(tdc,code,obtenirElement(arbre))\;}
+	\Sinon{
+	ajouterBit(code,0)\;
+	parcourirArbreR(tdc,(obtenirFilsGauche(arbre),code)\;
+	modifierIemeBit(code, longueur(code), 1)\;
+    	parcourirArbreR(tdc,(obtenirFilsDroit(arbre),code)\;}}
+    \end{procedure}
+    
+    \begin{function}
+    \SetAlgoLined
+    \caption{genererTable(arbreFinal:ArbreDeHuffmann):TableDeCodage}
+    \Declaration {tdc: TableDeCodage }
+    \Deb
+    {tdc$\gets$creerTableDeCodage( )\;
+    parcourirArbreR(tdc,arbreFinal,creerCodeBinaire( ))\;
+    \Return { tdc }
+     }
+    \end{function}
+
+
+%genererFichier
+%gererBuffer
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{gererBuffer(E code: CodeBinaire, E/S buffer: CodeBinaire, fichier: fichierBinaire)}
+    \Declaration{i: Naturel}
+    \Deb{
+    	\Pour{i $\gets$ 1 \KwA longueur(code) }{
+    		ajouterBit(buffer, iemeBit(code, i)) \\
+    		\Si{longueur(buffer) = 8}{
+    			EcrireOctet(fichier, codeBinaireEnOctet(buffer)) \\
+                buffer = creerCodeBinaire() \\
+    		}
+    	}
+    }
+    \end{procedure}
+    
+    \begin{function}
+    \SetAlgoLined
+    \caption{codeBinaireEnOctet(code): octet}
+    \Declaration{
+        o: Octet \\
+	    i: Naturel \\
+    }
+    \Deb{
+    	\Pour{i $\gets$ 1 \KwA 8 }{
+            changerIeme(octet, i, iemeBit(code, j))
+    	}
+    	
+    	\Return octet
+    }
+    \end{function}
+    
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{genererFichier(E stats: Statistiques, tdc: TableDeCodage, fOriginal: fichierBinaire, nomOriginal: CDC)}
+    \Declaration{
+    fCompr: fichierBinaire \\
+	codeB, buffer: CodeBinaire \\
+    }
+    \Deb{
+    	creerNouveauFichier(fCompr, stats, nomOriginal, longueur(fOriginal)) \\
+    
+        buffer = creerCodeBinaire()
+    	\Tq{non finFichier(fOriginal)}{
+    		codeB $\gets$ coderOctet(tdc, lireOctet(fOriginal)) \\
+    		gererBuffer(codeB, buffer, fichierOriginal) \\
+    	}
+    	
+    	\Si{longueur(buffer) $\neq$ 0}{
+    		ecrireOctet(fCompr, codeBinaireEnOctet(buffer))
+    	}
+    	
+    	fermer(fCompr) \\
+    }
+    \end{procedure}
+
+
+%fichierOriginal
+ \begin{procedure}
+    \SetAlgoLined
+    \caption{FichierOriginal(E/S f : fichier, E a:ArbreDeHuffman)}
+    \Pre{non(estVide(a))}\\
+    \Declaration{aTemp : ArbreDeHuffman, nbDecpr, IemeBit : Naturel, fDecpr : fichier, o: octet}
+    \Deb {
+ 	fDecpr=InitFichier(f.nom, ecriture)\\
+	nbDecpr $\gets$  0\\
+    o $\gets$ lireOctet(f.fb)\\
+    IemeBit $\gets$ 1\\
+		 
+		 \Tq {(nbDecpr \textless f.longueur )} 
+		    {
+		     \Si {IemeBit \textless 1}
+                 {o $\gets$ lireOctet(f.fb)\\
+			      IemeBit $\gets$ 1 }
+             aTemp = parcourirArbre(O$\_$ lireIemeBit(o, IemeBit), aTemp))\\
+	
+             \Si {estFeuille(aTemp)}
+                {EcrireOctet(fDecpr, obtenirOctet(aTemp))\\
+                aTemp  $\gets$ a \\
+                nbDecpr $\gets$ nbDecpr+1}
+             
+            
+    IemeBit $\gets$ IemeBit +1
+        }
+         }
+\end{procedure}
+
+\begin{function}
+    \SetAlgoLined
+    \caption{parcourirArbre( Bit : bit,a :ArbreDeHuffman):ArbreDeHuffman } 
+    \Declaration{
+        resultat : ArbreDeHuffman
+    }
+    \Deb {
+            \Si {bit==bitA1)} {
+                resultat=obtenirFilsDroit(a)
+                
+                
+         \Sinon{
+                resultat=obtenirFilsGauche(a)
+                }}
+   \Retour{resultat} }
+
+\end{function}
+
+%compresser
+ \begin{procedure}
+    \SetAlgoLined
+    \caption {compresser(E fichier: Fichier)}
+    \Declaration {statistiques : Statistiques, arbre:ArbreDeHuffman, table:TableDeCodage}
+    \Deb{
+     statistiques $\gets$ statistiques()\\
+     calculerStatistiques(fichier,statistiques)\\
+     arbre$\gets$ genererArbre(statistiques)\\
+     table$\gets$ genererTable(arbre)\\
+     genererFichier(statistiques,table,fichier)
+     
+     }
+     supprimer(arbre)
+    
+    \end{procedure}
+%decompresser
+\begin{procedure}
+    \SetAlgoLined
+    \caption {decompresser(E fichier: Fichier)}
+    \Declaration\ {statistiques : Statistiques, arbre:ArbreDeHuffman}
+    \Deb{
+        \Si{verifierID(fichier)}{
+             fichier.longueur $\gets$ lirelongueur(fichier)\\
+             statistiques$\gets$ statistiques()\\
+       	     lireStats(fichier, statistiques)\\
+             arbre$\gets$genererArbre(statistiques)\\
+             FichierOriginal(fichier,arbre)
+          }
+    }
+    
+    \end{procedure}

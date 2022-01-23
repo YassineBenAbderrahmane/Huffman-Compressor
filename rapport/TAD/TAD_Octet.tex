@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage[hmargin=2cm,vmargin=1cm]{geometry}
+\begin{document}
+    \thispagestyle{empty}
+    \noindent
+    Nom: Octet \\
+    Utilise: Bit, Naturel, Booleen \\
+    Opérations: \begin{itemize}[label=$\ $, leftmargin=2cm]
+        \item CreerOctet: $\varnothing  \rightarrow $ Octet
+        \item EcrireIeme: Octet $ \times $ Naturel $ \times $ Bit $ \rightarrow $ Octet
+        \item LireIeme: Octet $ \times $ Naturel $ \rightarrow $ Bit 
+        \item sontEgaux: Octet $ \times $ Octet $ \rightarrow $ Booleen 
+    \end{itemize}
+    Sémantiques: \begin{itemize}[label=$\ $, leftmargin=2cm]
+        \item CreerOctet: Permet de creer un octet
+        \item EcrireIeme: Ecrire le bit à la position i
+        \item LireIeme: Retourne le bit à la position i
+        \item sontEgaux: Compare 2 octet et retourne faux ou vraie si il sont egal ou non
+    \end{itemize}
+    Préconditions: \begin{itemize}[label=$\- $, leftmargin=2cm]
+        \item LireIeme(octet, i) : 1 $ <= $ i $ <= $ 8
+        \item EcrireIeme(octet, i,bit) : 1 $ <= $ i $ <= $ 8
+        
+    \end{itemize}
+\end{document}

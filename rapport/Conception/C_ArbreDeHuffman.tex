@@ -1,0 +1,152 @@
+    \section*{Arbre de Huffman}
+    \subsection*{Conception préliminaire}
+    \subsubsection*{Structure}
+
+    Type ArbreDeHuffman = Structure
+	\begin{itemize}[label=$\ $, leftmargin=2cm]
+		 \item filsD, filsG : ArbreDeHuffman
+		 \item poids : Naturel
+		 \item octet : Octet 
+	\end{itemize}
+    finStructure
+    
+    \subsubsection*{Signatures}
+
+	\begin{itemize}[label=$\ $, leftmargin=1cm]
+		 \item \textbf{fonction} creerArbreDeHuffman():ArbreDeHuffman
+		 \item \textbf{fonction} estVide(arbre:ArbreDeHuffman):Booleen
+		 \item \textbf{fonction} estFeuille(arbre:ArbreDeHuffman):Booleen
+		 \item \textbf{fonction} insérerRacine(poids:Naturel, fg, fd:ArbreDeHuffman) : ArbreDeHuffman
+		 \begin{itemize}[label=$| $]
+            \item \textbf{précondition:} non estVide(fg) et non estVide(fd)
+         \end{itemize}
+         \item \textbf{fonction} insérerFeuille(octet: Octet, poids:Naturel, fg,fd:ArbreDeHuffman): ArbreDeHuffman
+         \begin{itemize}[label=$| $]
+            \item \textbf{précondition:} estVide(fg) et estVide(fd)
+         \end{itemize}
+         \item \textbf{fonction} obtenirPoids(arbre:ArbreDeHuffman):Naturel
+         \item \textbf{fonction} obtenirOctet(arbre:ArbreDeHuffman):Octet
+         \begin{itemize}[label=$| $]
+            \item \textbf{précondition:} estFeuille(arbre)
+         \end{itemize}
+         \item \textbf{fonction} obtenirFilsGauche(arbre:ArbreDeHuffman):ArbreDeHuffman
+         \begin{itemize}[label=$| $]
+            \item \textbf{précondition:} non estVide(arbre)
+         \end{itemize}
+         \item \textbf{fonction} obtenirFilsDroit(arbre:ArbreDeHuffman):ArbreDeHuffman
+         \begin{itemize}[label=$| $]
+            \item \textbf{précondition:} non estVide(arbre)
+         \end{itemize}
+         \item \textbf{fonction} comparer(arbre1, arbre2:ArbreDeHuffman):Booleen
+         \item \textbf{procédure} supprimer(E/S arbre:ArbreDeHuffman)
+
+	\end{itemize} 
+
+    \subsection*{Conception détaillée}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{creerArbreDeHuffman( ): ArbreDeHuffman}
+    \Declaration{arbre: ArbreDeHuffman }
+    \Deb{
+        allouer(arbre) \\
+       arbre.filsG$\gets$ NIL \\
+       arbre.filsD$\gets$ NIL \\
+        \Retour{arbre}
+    }
+    \end{function}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{estVide( arbre: ArbreDeHuffman): Booleen}
+    \Deb{
+        \Retour{ (obtenirFilsGauche(arbre) = NIL) et (obtenirFilsDroit(arbre) = NIL)}
+    }
+    \end{function}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{estFeuille( arbre: ArbreDeHuffman): Booleen}
+    \Pre{non estVide(arbre)} \\
+    \Deb{
+        \Retour{ estVide(obtenirFilsGauche(arbre)) et estVide(obtenirFilsDroit(arbre))}
+    }
+    \end{function}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{insererRacine(poids: Naturel, fg,fd: ArbreDeHuffman): ArbreDeHuffman}
+    \Pre{non estVide(fg) et non estVide(fd)} \\
+    \Declaration{arbre: ArbreDeHuffman }
+    \Deb{
+        allouer(arbre) \\
+       arbre.filsG$\gets$ fg \\
+       arbre.filsD$\gets$ fd \\
+       arbre.poids $\gets$ poids \\
+        \Retour{ arbre }
+    }
+    \end{function}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{insererFeuille(octet: Octet, poids: Naturel, fg,fd: ArbreDeHuffman): ArbreDeHuffman}
+    \Pre{estVide(fg) et estVide(fd)} \\
+    \Declaration{arbre: ArbreDeHuffman }
+    \Deb{
+        allouer(a) \\
+       arbre.filsG$\gets$ fg \\
+       arbre.filsD$\gets$ fd \\
+       arbre.poids $\gets$ poids \\
+        arbre.octet $\gets$ octet \\
+        \Retour{ a }
+    }
+    \end{function}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{obtenirPoids(arbre: ArbreDeHuffman): Naturel}
+    \Pre{ non estVide(arbre) } \\
+    \Deb{
+        \Retour{arbre.poids }
+    }
+    \end{function}
+    
+    \begin{function}
+    \SetAlgoLined
+    \caption{obtenirOctet( arbre: ArbreDeHuffman): Octet}
+    \Pre{ estFeuille(arbre) } \\
+    \Deb{
+        \Retour{ arbre.octet }
+    }
+    \end{function}
+    
+    \begin{function}
+    \SetAlgoLined
+    \caption{obtenirFilsGauche( arbre: ArbreDeHuffman): ArbreDeHuffman}
+    \Deb{
+        \Retour{ arbre.filsG }
+    }
+    \end{function}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{obtenirFilsDroit( arbre: ArbreDeHuffman): ArbreDeHuffman}
+    \Deb{
+        \Retour{ arbre.filsD }
+    }
+    \end{function}
+    
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{supprimer(E/S arbre: ArbreDeHuffman)}
+    \Declaration{tmp: ArbreDeHuffman}
+    \Deb{
+        \If{ non estVide(arbre) }{
+            tmp $\gets$ obtenirFilsGauche(arbre) \\
+            supprimer(tmp) \\
+            tmp $\gets$ obtenirFilsDroite(arbre) \\
+            supprimer(tmp) \\
+        }
+        liberer(arbre)
+    }
+    \end{procedure}

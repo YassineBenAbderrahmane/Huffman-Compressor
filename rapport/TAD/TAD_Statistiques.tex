@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage[hmargin=2cm,vmargin=1cm]{geometry}
+\begin{document}
+    \noindent
+    \thispagestyle{empty}
+	Nom : Statistiques \\
+	Paramètre : Octet, Naturel
+	Utilise: Booleen\\
+	Opérations :
+	\begin{itemize}[label=$\ $, leftmargin=2cm]
+		 \item statistiques : $\varnothing  \rightarrow$ Statistiques
+		 \item AjouterOctet: Statistiques  $\times$ Octet $\times$ Naturel $\nrightarrow$ Statistiques
+	     \item ModifierOctet: Statistiques  $\times$ Octet $\times$ Naturel $\nrightarrow$ Statistiques
+		 \item supprimerOctet:Statistiques $\times$ Octet  $\nrightarrow$  Statistiques
+		 \item obtenirOccurence: Statistiques $\times$ Octet $\rightarrow$ Naturel
+		 \item nbElements: Statistiques $\rightarrow$ Naturel
+		 \item estVide: Statistiques $\rightarrow$ booleen
+		 \item estPresent: Statistiques $\times$ Octet $\rightarrow$ booleen
+	\end{itemize}
+         Sémantique : 
+	\begin{itemize}[label=$\ $, leftmargin=2cm]
+		 \item statistiques: Initialiser Statistiques
+		 \item AjouterOctet:  Ajoute un Octet dans Statistiques 
+	  	 \item ModifierOctet:  Modifie un Octet dans Statistiques ou incrémente un octet déjà présent
+		 \item supprimerOctet: Supprimeun Octet
+		 \item obtenirOccurence: Retourne le nombre d'occurence d'un Octet
+		 \item estVide: Retourne VRAI si Statistiques est vide et FAUX sinon
+		 \item nbElements: Retourne le nombre d'éléments de Statistiques
+		 \item estPresent : Retourne VRAI si un Octet est présent dans Statistiques et FAUX sinon
+		 
+		 
+	\end{itemize} 
+	Axiomes : 
+	\begin{itemize}[label=$\ $, leftmargin=2cm]
+		 \item estPresent(ajouterElement(table,o,occ)=VRAI
+		 \item estPresent(supprimerOctet(table,o),occ) = Faux		
+ 		 \item estVide(table())=VRAI	
+       		 \item obtenirOccurence(ajouterElement(table,o,occ),o) = occ
+   	         \item nbElements(table()) = 0
+        	 \item nbElements(table) = n et nbElements(ajouterOctet(table,o,occ)) = n+1
+       		 \item nbElements(table) = n et nbElements(supprimerOctet(table,o,occ)) = n-1
+	\end{itemize}
+  	 Préconditions: 
+	\begin{itemize}[label=$\- $, leftmargin=2cm]
+		  \item AjouterOctet(table,o) : non(estPresent(table,o))
+		  \item ModifierOctet(table,o,p) :estPresent(table,o)
+		  \item supprimerOctet(table,o) :estPresent(table,o))	                                   
+	\end{itemize}
+        \end{document}

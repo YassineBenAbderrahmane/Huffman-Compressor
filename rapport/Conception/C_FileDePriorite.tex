@@ -1,0 +1,174 @@
+    \section*{FileDePriorite}
+    \subsection*{Conception préliminaire}
+    \subsubsection*{Structure}
+ 
+    Type ListeChaineeArbre = ListeChainee$<$Arbre$>$ (resp. Noeud$<$Arbre$>$)
+ 
+    Type FileDePriotrite = Structure
+	\begin{itemize}[label=$\ $, leftmargin=2cm]
+		 \item debut : ListeChaineeArbre
+		 \item fin : ListeChaineeArbre
+	\end{itemize}
+ 
+    finStructure
+ 
+	\subsubsection*{Signatures}
+	
+    \begin{itemize}[label=$\ $, leftmargin=1cm]
+        \item \textbf{fonction} obtenirDebut (file : FileDePriorite) : ListeChaineeArbre
+        \item \textbf{fonction} obtenirFin (file:FileDePriorite) : ListeChaineeArbre
+        \item \textbf{procédure} fixerDebut (E/S file : FileDePriorite, E debut : ListeChaineeArbre)
+        \item \textbf{procédure} fixerFin(E/S file : FileDePriorite, E fin : ListeChaineeArbre)
+        \item \textbf{fonction} obtenirElementListe (liste : ListeChaineeArbre) : ArbreDeHuffman
+        \item \textbf{procédure} fixerElementListe (E/S liste : ListeChaineeArbre, E arbre : ArbreDeHuffman)
+        \item \textbf{fonction} listeEstVide (liste : ListeChaineeArbre) : Booleen
+        \item \textbf{fonction} creerFile ( ) : FileDePriorite
+        \item \textbf{fonction} EstVide (file:FileDePriorite) : Booleen
+        \item \textbf{procédure} enfiler (E/S file :  FileDePriorite, E arbre : ArbreDeHuffman)
+        \item \textbf{procédure} defiler (E/S file :  FileDePriorite)
+        \item \textbf{fonction} obtenirArbre (file:FileDePriorite) :ArbreDeHuffman
+    \end{itemize} 
+    
+
+    \subsection*{Conception détaillée}
+ 
+    \begin{function}
+    \SetAlgoLined
+    \caption{obtenirDebut(file : FileDePriorite) : ListeChaineeArbre}
+    \Deb{
+        \Retour{file.debut}
+        }
+    \end{function}
+ 
+    \begin{function}
+    \SetAlgoLined
+    \caption{obtenirFin(file : FileDePriorite) : ListeChaineeArbre}
+    \Deb{
+        \Retour{file.fin}
+        }
+    \end{function}
+ 
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{fixerDebut(E/S file : FileDePriorite, E debut : ListeChaineeArbre)}
+    \Deb{
+        file.debut $\gets$ debut \\
+        }
+    \end{procedure}
+ 
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{fixerFin(E/S file : FileDePriorite, E fin : ListeChaineeArbre)}
+    \Deb{
+        file.fin $\gets$ fin² \\
+        }
+    \end{procedure}
+ 
+    \begin{function}
+    \SetAlgoLined
+    \caption{obtenirElementListe(liste : ListeChaineeArbre): ArbreDeHuffman}
+    \Deb{
+        \Retour{file.fin}
+        }
+    \end{function}
+ 
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{fixerElementListe(E/S liste : ListeChaineeArbre, E arbre : ArbreDeHuffman)}
+    \Deb{
+        liste.arbre $\gets$ arbre
+        }
+    \end{procedure}
+ 
+    \begin{function}
+    \SetAlgoLined
+    \caption{listeEstVide(liste : ListeChaineeArbre) : Booleen}
+    \Deb{
+        \Retour{liste.arbre=NIL}
+        }
+    \end{function}
+ 
+    \begin{function}
+    \SetAlgoLined
+    \caption{creerFile ( ) : FileDePriorite}
+    \Declaration{file : FileDePriorite }
+    \Deb{
+        fixerDebut(file,NIL)\\
+        fixerFin(file,NIL)\\
+        \Retour{file}
+        }
+    \end{function}
+ 
+    \begin{function}
+    \SetAlgoLined
+    \caption{EstVide(file:FileDePriorite) :  Booleen}
+    \Deb{
+        \Retour{ obtenirDebut(file) = NIL}
+    }
+    \end{function}
+ 
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{enfiler (E/S file :  FileDePriorite, E arbre : ArbreDeHuffman)}
+    \Declaration{tmp, noeud: ListeChainee, fin: Booleen}
+    \Deb{
+        allouer(tmp) \\
+        fixerElementListe(tmp,arbre) \\
+        \Si{estVide(file)}{
+            fixerDebut(file,tmp)\\
+            fixerFin(file,tmp)\\
+        }
+        \Si{
+            comparer(obtenirElementListe(tmp),obtenirArbre(file)) $<$ 0
+        }{
+            LC\_fixerListeSuivante(tmp,obtenirDebut(file))\\
+            fixerDebut(file,tmp)
+        }
+        \Sinon{
+            fin $\gets$ faux\\
+            noeud $\gets$ obtenirDebut(file)\\
+            \Tq{non(fin)}{
+                \Si{listeEstVide(LC\_obtenirListeSuivante(noeud))}{
+                    LC\_fixerListeSuivante(noeud,tmp)\\
+                    fixerFin(file,tmp)\\
+                    fin $\gets$ true\\
+                    }
+                \Si {comparer(obtenirElementListe(tmp),obtenirElementListe(LC\_obtenirListeSuivante(noeud)))$<$0)}{
+                    LC\_fixerListeSuivante(tmp,LC\_obtenirListeSuivante(noeud))\\
+                    LC\_fixerListeSuivante(noeud,tmp)\\
+                    fin $\gets$ true\\
+                }
+                \Sinon{ noeud $\gets$ LC\_obtenirlisteSuivante(noeud) }
+            }
+            }
+    }
+    \end{procedure}
+ 
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{defiler (E/S file :  FileDePriorite)}
+    \Declaration{tmp: ListeChaineeArbre}
+    \Deb{
+        tmp $\gets$ obtenirDebut(file)\\
+ 
+        \Si{non(listeEstVide(LC\_obtenirListeSuivante(obtenirDebut(\^{}file))))}{
+            fixerDebut(file,LC\_obtenirListeSuivante(obtenirDebut(\^{}file)))\\
+        }
+        \Sinon{
+            fixerDebut(file,NIL )\\
+            fixerFin(file,NIL) \\ 
+        }
+ 
+        liberer(tmp)
+    }
+    \end{procedure}
+ 
+    \begin{function}
+    \SetAlgoLined
+    \caption{obtenirArbre (file : FileDePriorite) : ArbreDeHuffman}
+    \Deb{
+ 
+        \Retour{file.debut\^{}.arbre}
+ 
+    }
+    \end{function}

@@ -1,0 +1,334 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{array}
+\usepackage{classeRapport}
+\usepackage{enumitem}
+\usepackage{times}
+\usepackage{fancyhdr,graphicx,amsmath,amssymb, xcolor}
+\usepackage[ruled,vlined, french]{algorithm2e}
+    \SetKwInput{Declaration}{Declaration}
+    \SetKw{KwA}{a}
+    \SetKw{Retour}{retourner}
+    \SetKwBlock{Deb}{debut}{fin}
+    \SetKwIF{Si}{SinonSi}{Sinon}{si}{alors}{sinon si}{sinon}{finsi}
+    \SetKwFor{Tq}{tant que}{faire}{finTantQue}
+    \SetKwFor{Pour}{pour}{faire}{finPour}
+    \SetKwRepeat{Repeter}{repeter}{jusqu’a}
+    \SetKw{Pre}{Precondition(s)}
+
+\usepackage{listings}
+    \definecolor{darkWhite}{rgb}{0.94,0.94,0.94}
+ 
+    \lstset{
+      aboveskip=3mm,
+      belowskip=-2mm,
+      backgroundcolor=\color{darkWhite},
+      basicstyle=\footnotesize,
+      breakatwhitespace=false,
+      breaklines=true,
+      captionpos=b,
+      commentstyle=\color{red},
+      deletekeywords={...},
+      escapeinside={\%*}{*)},
+      extendedchars=true,
+      framexleftmargin=16pt,
+      framextopmargin=3pt,
+      framexbottommargin=6pt,
+      frame=tb,
+      keepspaces=true,
+      keywordstyle=\color{blue},
+      language=C,
+      literate=
+      {²}{{\textsuperscript{2}}}1
+      {⁴}{{\textsuperscript{4}}}1
+      {⁶}{{\textsuperscript{6}}}1
+      {⁸}{{\textsuperscript{8}}}1
+      {€}{{\euro{}}}1
+      {é}{{\'e}}1
+      {è}{{\`{e}}}1
+      {ê}{{\^{e}}}1
+      {ë}{{\¨{e}}}1
+      {É}{{\'{E}}}1
+      {Ê}{{\^{E}}}1
+      {û}{{\^{u}}}1
+      {ù}{{\`{u}}}1
+      {â}{{\^{a}}}1
+      {à}{{\`{a}}}1
+      {á}{{\'{a}}}1
+      {ã}{{\~{a}}}1
+      {Á}{{\'{A}}}1
+      {Â}{{\^{A}}}1
+      {Ã}{{\~{A}}}1
+      {ç}{{\c{c}}}1
+      {Ç}{{\c{C}}}1
+      {õ}{{\~{o}}}1
+      {ó}{{\'{o}}}1
+      {ô}{{\^{o}}}1
+      {Õ}{{\~{O}}}1
+      {Ó}{{\'{O}}}1
+      {Ô}{{\^{O}}}1
+      {î}{{\^{i}}}1
+      {Î}{{\^{I}}}1
+      {í}{{\'{i}}}1
+      {Í}{{\~{Í}}}1,
+      morekeywords={*,...},
+      numbers=left,
+      numbersep=10pt,
+      numberstyle=\tiny\color{black},
+      rulecolor=\color{black},
+      showspaces=false,
+      showstringspaces=false,
+      showtabs=false,
+      stepnumber=1,
+      stringstyle=\color{gray},
+      tabsize=4,
+      title=\lstname,
+    }
+\begin{document}
+
+\PageDeGarde
+{cover.png} % image sur la page de garde
+{Compresseur de Huffman} % titre principal
+{Depuis j'ai plus winrar} % sous-titre
+{Julie \textsc{Allais}\\
+Yassine \textsc{Ben Abderrahmane}\\
+Antoine \textsc{Camusat}\\
+Florine \textsc{Chevrier}\\
+Florin \textsc{Croitoru}\\
+Marine \textsc{Varlet}} % nom
+{Algo – ITI3 – 2020} % bas de page
+
+
+\Page{INSALogo} % logo de bas de page (en bas a droite)
+
+\tableofcontents
+
+\clearpage % Pour faire un saut de page propre
+\section{Introduction} % L'astérisque est pour que la section ne soit pas numérotée
+Dans le cadre de nos études dans la filière ITI à l’INSA de Rouen, nous avons réalisé un projet d’algorithmie en C. Le but de ce projet était de réaliser un compresseur de données, dans notre cas, un compresseur de Huffman. Ce projet est le premier que nous avons eu à réaliser du début à la fin en autonomie presque complète. Cela nous a permis de faire face à de nombreuses difficultés et ainsi de progresser dans de divers domaines. \\
+En effet, ce projet a évidemment sollicité nos connaissances algorithmiques mais également notre capacité à travailler en groupe. Nous avons appris à nous organiser, mais aussi à mieux communiquer, d’autant plus avec la crise sanitaire mondiale, se comprendre et être clair était primordial. Nous avons donc appris à nous adapter aux autres, et surtout à coder de façon claire et précise pour que nos collègues puissent comprendre ce que nous avions fait. Afin de faciliter la gestion de ce projet, nous devions utiliser Git dont nous nous étions déjà servi à d’autres occasions mais pour la plupart d’entre nous, nous ne le maîtrisions pas encore. L’utilisation de cette plateforme est donc une autre compétence essentielle que nous avons pu développer. Nous avons tous aussi progressé en C, qui est un langage que nous avons commencé à étudier au début de l’année, ainsi qu’à documenter notre code avec Doxygen. Nous avons également amélioré nos compétences en \LaTeX que nous avons utilisé pour la rédaction du rapport. \\
+Nous présentons donc dans ce rapport le résultat de notre travail, en commençant par l'analyse, puis la conception préliminaire et enfin la conception détaillée.
+
+
+\clearpage % Pour faire un saut de page propre
+
+\section{TAD}
+    %Une page d'introduction pour les TAD 
+    Pour un développement efficace du code, il est nécessaire d’identifier et de
+    spécifier relativement tôt les données que ce code manipule. Une donnée est ainsi
+    spécifiée en considérant ses fonctionnalités, et non sa mise en œuvre en mémoire.
+    Passons alors au Type Abstrait de Données (TAD) que nous avons choisi
+
+    %Une page par TAD, en fichier PDF
+    \includegraphics[width=1\textwidth]{TAD/TAD_ArbreDeHuffman.pdf}
+    \includegraphics[width=1\textwidth]{TAD/TAD_CodeBinaire.pdf}
+    \includegraphics[width=1\textwidth]{TAD/TAD_FileDePriorite.pdf}
+    \includegraphics[width=1\textwidth]{TAD/TAD_Octet.pdf}
+    \includegraphics[width=1\textwidth]{TAD/TAD_Statistiques.pdf}
+    \includegraphics[width=1\textwidth]{TAD/TAD_TableDeCodage.pdf}
+
+\section{Anaylses Descendantes}
+    %Analyses Descendantes
+    Ci-joint les analyses descendantes des fonctions compresser et décompresser.
+    Les fichiers en grand format sont disponible dans le dossier PDF.
+
+    \includegraphics[width=0.7\textwidth]{images/compresser.pdf}
+
+    \includegraphics[width=0.8\textwidth]{images/decompresser.pdf}
+
+\section{Conception des structures}
+    %Une page d'introduction pour la conception detaillée
+    Le contenu de cette section présente la conception des structures qui ont été mises en évidence dans la partie TAD.
+
+    %Une page par TAD, en fichier PDF
+    \clearpage
+
+	\input{Conception/C_ArbreDeHuffman.tex}
+    \clearpage
+    
+	\input{Conception/C_CodeBinaire.tex}
+    \clearpage
+    
+	\input{Conception/C_FileDePriorite.tex}
+    \clearpage
+    
+	\input{Conception/C_Octet.tex}
+    \clearpage
+    
+	\input{Conception/C_Statistiques.tex}
+    \clearpage
+    
+	\input{Conception/C_TableDeCodage.tex}
+
+\clearpage % Pour faire un saut de page propre
+
+\section{Conception Détaillée Métier}
+    %TODO: Conception Detaillée
+
+    Lorsque nous avons les outils permettant de manipuler nos données, il est temps de créer les fonctions et procédures qui permettront de les utiliser afin d'obtenir le résultat souhaité. Ainsi nous avons réfléchi aux principales fonctionnalités qui permettent de compresser ou décompresser.
+
+    \input{metier.tex}
+
+\clearpage % Pour faire un saut de page propre
+
+\section{Code C}
+    %TODO: Code C
+    \lstinputlisting[language=C]{../programme/src/ArbreDeHuffman.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/CodeBinaire.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/fileDePriorite.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/octet.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/Statistiques.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/tableDeCodage.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/fichier.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/calculerStats.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/FichierOriginal.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/genererArbre.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/genererFichier.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/genererTable.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/huffman.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/main.c}
+    \clearpage
+    \lstinputlisting[language=C]{../programme/src/erreur.c}
+
+\clearpage % Pour faire un saut de page propre
+
+\section{Tests Unitaires}
+    %TODO: Tests Unitaires
+    \lstinputlisting[language=C]{../programme/src/tests.c}
+
+\clearpage % Pour faire un saut de page propre
+
+\section{Développement}
+    %Cycle de développement de la Table de Codage
+    
+    \subsection*{TableDeCodage}
+    La table de codage permet de faire le lien entre les octets et leur code binaire. Elle est construite à l’aide de l’arbre de Huffman lorsqu’il est entièrement généré. En parcourant cet arbre, en suivant chaque chemin jusqu’aux feuilles, on trouve le code binaire associé à chaque octet. On rentre ensuite ce couple dans la table de codage. On doit pouvoir récupérer le code correspondant à un octet afin de pouvoir coder le fichier. C’est ainsi que nous avons conçu le TAD Table de Codage. 
+    Nous avons alors compris que cette table de codage serait représentée par un dictionnaire. Ainsi qu’il a été présenté avant la conception préliminaire de la table dans ce rapport, nous avons créé une fonction de hash afin de rendre rapide la recherche des clefs. La table de codage a été représentée sous la forme d’un tableau, chaque ligne contenant l’octet (la clé) et le code binaire associé (la valeur).
+
+    \subsection*{ArbreDeHuffman}
+    La structure ArbreDeHuffman est un ArbreBinaire, néanmoins, les feuilles et les racines sont différentes. En effet, les feuilles représentent « une » statistique. C’est-à-dire le nombre d’occurrence d’un octet particulier dans le fichier original, ainsi que l’octet en question. Tandis que les racines sont simplement là pour sommer les statistiques, lors de la phase de création de l’arbre (genererArbre).
+	Afin de simplifier le développement, notre structure a, dans le cas de la feuille et dans le cas de la racine, le champ octet. C’est une précondition qui « empêche » la lecture d’un octet dans le cas de la racine.
+
+    \subsection*{Codage}
+    Grâce à notre analyse, notre fonction compresser est simplement un enchainement de la création des statistiques, de la génération de l’arbre puis de la table, et enfin de la création du fichier compressé.
+
+    \subsection*{Fichier compressé}
+    Notre fichier compressé (.huff) est constitué d’un entête, et des données. La taille de l’entête est le « coût » de la compression. On a donc essayé de le faire le plus petit possible : 
+    \begin{itemize}[leftmargin=1cm]
+        \item Identifiant : Il s’agit d’une suite de 16 octets permettant d’identifier un fichier comme ayant été généré par notre algorithme.
+        \item Taille du fichier source : Stocké sur un « unsigned int » (4 Octets sur gcc x64, on peut donc compresser des fichiers jusqu’à 4Go).
+        \item Le nombre de statistiques non nulle (encore stocké sur un « unsigned int »). On aurait pu utiliser seulement un octet (256 statistiques au maximum), mais cela compliquait grandement les conversions de type. 
+        \item Chaque statistique : Un « unsigned int » pour sa taille, et un octet pour sa valeur (l’octet).
+    \end{itemize}
+    Vient ensuite le code correspondant à notre suite de codeBinaire. On termine éventuellement par des bits de bourrage à 0. 
+
+    Finalement, l'utilisation de Valgrind nous a permis de résoudre les fuites mémoire que l'on a pu rencontrer.
+
+\newgeometry{hmargin=2.5cm,vmargin=1.5cm}
+\clearpage % Pour faire un saut de page propre
+\section{Organisation}
+
+
+En amont du projet, nous nous sommes répartis l'ensemble des tâches à réaliser. Nous avons fait en sorte que le travail soit réparti le plus équitablement possible, tout en prêtant attention aux compétences et difficultés de chacun. De plus, nous avons décidé de faire travailler tout le monde sur les différents TAD que nous avons conçu afin que chacun comprenne bien comment ils sont employés dans le projet.
+Voici donc le tableau de répartition du travail:\\
+\medskip
+\newcolumntype{M}[1]{>{\raggedright}m{#1}}
+
+\begin{table}[h]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{c||M{1.6cm}|M{1.7cm}|M{1.6cm}|M{1.7cm}|M{1.7cm}|M{1.6cm}}
+     \hline
+       & \textbf{Antoine} & \textbf{Florin} & \textbf{Florine} & \textbf{Julie} & \textbf{Marine} & \textbf{Yassine}\tabularnewline
+     \hline\hline
+      TAD & Code Binaire &  Octet& Arbre & Table de codage & File de priorité & Statistiques \tabularnewline
+      \hline
+      CP & Table De Codage & File de Priorité & Code Binaire& Arbre & Statistiques & Octet\tabularnewline
+      \hline
+      CD & Arbre & Statistiques & File de Priorité & Octet & Code Binaire & Table de codage\tabularnewline
+      \hline
+      Implémentation & Octet & Code Binaire & Statistiques& File de priorité & Table de codage & Arbre \tabularnewline
+      \hline
+      Tests & File De Priorité & Table De Codage & Octet & Statistiques & Arbre & Code binaire\tabularnewline
+      \hline
+    \end{tabular}
+    \caption{Répartition des tâches liées aux TAD}
+    \label{tab:my_label}
+\end{table}
+
+\medskip
+    Ensuite, nous nous sommes penchés sur l'organisation de notre travail concernant la partie métier de notre projet. Nous avons pour cela repris notre analyse descendante, que nous avons avons divisée en sous parties. L'objectif était de faire travailler un maximum de personnes sur chaque partie afin que tout le monde ait compris le projet dans son ensemble. Voici donc le second tableau de répartition:
+\medskip
+\begin{table}[h]
+    \centering
+    \renewcommand{\arraystretch}{1.5}
+    \begin{tabular}{c||M{1.9cm}|M{1.9cm}|M{1.6cm}|M{1.6cm}|M{1.9cm}|M{1.6cm}}
+     \hline
+       & \textbf{Antoine} & \textbf{Florin} & \textbf{Florine} & \textbf{Julie} & \textbf{Marine} & \textbf{Yassine}\tabularnewline
+     \hline\hline
+      CP et CD & Générer Fichier & Compresser Décompresser & générer Arbre & calculer Stats & générer Table & Fichier Original \tabularnewline
+      \hline
+      Implémentation & Compresser Décompresser & générer Table & Code Binaire& générer Arbre & générer Fichier & Calculer Stats\tabularnewline
+      \hline
+      Tests & Fichier original& calculer Stats & générer Fichier & générer Stats & Compresser Décompresser & générer Arbre \tabularnewline
+      \hline
+     
+    \end{tabular}
+    \caption{Répartition des tâches métier}
+    \label{tab:my_label}
+\end{table}
+
+\medskip
+Cette manière de nous organiser nous a permis de travailler en autonomie, quand nous le souhaitions et à notre rythme entre chaque séance imposée. Les séances imposées servaient essentiellement à faire le point sur notre avancée tous ensemble, discuter de nos problèmes éventuels et à se fixer les objectifs pour les prochaines séances. Il est à noter qu'en conséquence de l'épidémie du COVID-19, notre travail a été perturbé puisque notre charge de travail personnel a augmenté et que la communication entre les membres du groupe était plus difficile. Cela nous a donc retardé et nous n'avons pas pu mettre en place nos tests. 
+
+\restoregeometry
+\clearpage
+\section{Conclusion}
+    %TODO: Conclusion
+    
+En conclusion, ce projet était l’occasion d’exploiter nos compétences acquises lors de nos enseignements a L’INSA. En effet grâce à l'apprentissage de git nous avons pu bien distribuer les tâches de projet et voir comment avançait le projet au fur et à mesure. Ceci a aussi contribué à un meilleur esprit d’équipe car chacun avait une part équitable du travail. Ce projet est aussi un projet pratique donc nous avons pu appliquer nos connaissances théoriques des cours d’algorithme et améliorer notre codage en C. Par exemple détection de bugs, optimisation etc… De plus, pour résoudre certains problèmes, nous avons dû chercher plus loin dans d’autres ressources. Ainsi nous avons aussi élargi nos compétences en dehors de ce que nous pouvions trouver dans notre cours.
+
+\clearpage % Pour faire un saut de page propre
+
+\section{Rapport d'étonnement}
+    %TODO: RE
+    
+    \textbf{Marine:} 
+        Ce projet m'a permis de mettre en pratique les cours sur la programmation en langage C, j'ai donc pu en comprendre le fonctionnement et découvrir les avantages et inconvénients de son utilisation. De plus, ce projet était une nouvelle fois une occasion d'expérimenter le travail en équipe. J'ai pu m'améliorer dans la comprehension et l'utilisation d'outils spécifiques aux projets informatiques comme Git. Enfin, j'ai trouvé que faire partie d'un projet et le voir évoluer du début à la fin était assez motivant et que cela permettait de mieux assimiler et retenir les notions vues en cours.
+    \medskip
+
+    \textbf{Julie:}
+        Ce projet a été une expérience très intéressante. Il m'a permis de mettre en oeuvre certains aspects et de comprendre notamment les différences entre les structures que nous avons vu en cours. Cela nous a permis de réfléchir aux raisons de choisir une méthode plutôt qu'une autre afin de mener à bien notre projet. Nous avons mené un travail de préparation en amont afin d'avoir une base très solide sur laquelle travailler. La distribution des tâches et le travail d'équipe m'ont permis de travailler sur des aspects différents du projet.
+    \medskip
+
+    \textbf{Florine:}
+        Ce projet fut une expérience intense mais aussi agréable qui m'a permis de mettre en pratique les notions vues en cours et ainsi de les comprendre en profondeur. J'ai eu la chance d'être dans une équipe non seulement agréable, mais aussi sérieuse et efficace.
+    \medskip
+
+    \textbf{Florin:}
+        J’ai beaucoup apprécié ce projet car il m’a permis d’apprendre l’utilisation du git et d’améliorer le codage en C. Ce projet m’a aidé à mettre en œuvre les parties théoriques qu’on a vu pendant les cours d’algorithme et d’avoir une idée générale de comment se déroule un travail en équipe. De plus j’ai vu le principe qui se cache derrière la compression et la décompression d’un fichier. Ceci m’a amené à me poser d’autres questions sur les autres applications que nous utilisons tous les jours. 
+    \medskip
+
+    \textbf{Yassine:}
+        Ce projet m'a appris à maîtriser de nouveaux outils tout en professionnalisant ma méthode de travail. L'utilisation du Latex pour une rédaction propre et efficace, de Git pour une bonne gestion de nos fichiers et le respect d'une méthodologie propre à la création d'un programme informatique furent ainsi les clés de la réussite de ce projet. Il est clair que ces techniques de travail nous seront d'une grande utilité quelque soit la formation d'ingénieur envisagée.
+    \medskip
+
+    \textbf{Antoine:}
+        J'ai beaucoup apprécié travailler sur ce projet, celui-ci est un bel exemple de mise en application concrète des connaissances vues en cours. La COVID nous a empêché de continuer à nous réunir en groupe, mais nous avons su travailler ensemble via discord et git afin de poursuivre le développement. 
+
+\clearpage % Pour faire un saut de page propre
+
+\end{document}

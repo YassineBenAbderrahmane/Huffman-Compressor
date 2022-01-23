@@ -1,0 +1,119 @@
+    \section*{CodeBinaire}
+
+    Le code binaire est constitué de bit, nous avons décidé de représenter le code binaire comme une structure contenant un tableau de bit ainsi qu'un naturel qui nous permettra de connaître la longueur du tableau qui est occupée :
+
+    \subsection*{Conception préliminaire}
+    \subsubsection*{Structure}
+
+	
+    Type Bit = Naturel \{0,1\} \\
+    Type CodeBinaire = Structure
+	\begin{itemize}[label=$\ $, leftmargin=2cm]
+	    \item code : Tableau [1...MAX] de Bit
+	    \item longueur : Naturel
+    \end{itemize}
+	finstructure
+
+    \subsubsection*{Signatures}
+
+    \begin{itemize}[label=$\ $, leftmargin=1cm]
+        \item \textbf{fonction} creerCodeBinaire( ) : CodeBinaire
+        \item \textbf{fonction} longueur(cBinaire : CodeBinaire) : Naturel
+        \item \textbf{fonction} iemeBit (cBinaire : CodeBinaire, iemePlace : Naturel) : Bit
+        \begin{itemize}[label=$| $, leftmargin=1cm]
+            \item \textbf{précondition} : 0 $<$ iemePlace et iemePlace $ \leqslant$ longueur(cBinaire)
+        \end{itemize}
+        \item \textbf{procédure} ajouterBit(E/S cBinaire : CodeBinaire, E bit : Bit)
+        \begin{itemize}[label=$| $, leftmargin=1cm]
+            \item \textbf{précondition} : longueur(cBinaire) $<$ 256
+        \end{itemize}
+        \item \textbf{procédure} modifierIemeBit (E/S cBinaire : CodeBinaire, E iemePlace : Naturel, bit : Bit)
+        \begin{itemize}[label=$| $, leftmargin=1cm]
+            \item \textbf{précondition} : 0 $<$ iemePlace et iemePlace $ \leqslant$ longueur(cBinaire)
+        \end{itemize}
+        \item \textbf{procédure} supprimerIemeBit (E/S cBinaire : CodeBinaire, E iemePlace : Naturel)
+        \begin{itemize}[label=$| $, leftmargin=1cm]
+            \item \textbf{précondition} : 0 $<$ iemePlace et iemePlace $ \leqslant$ longueur(cBinaire)
+        \end{itemize}
+        \item \textbf{fonction} sontEgaux(cBinaire1, cBinaire2 : CodeBinaire) : Booleen
+    \end{itemize}
+
+    \subsection*{Conception détaillée}
+    
+    \begin{function}[H]
+    \SetAlgoLined
+    \Deb
+        {$resultat.longueur \gets 1$ 
+        $resultat.code[1] \gets 0$ 
+        \Retour{resultat}}
+    \caption{creerCodeBinaire( ):CodeBinaire}
+    \end{function}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{longueur(cBinaire:CodeBinaire):Naturel} 
+    \Deb{
+        \Retour{cBinaire.longueur}}
+    \end{function}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{iemeBit (cBinaire:CodeBinaire, iemePlace : Naturel) : Bit} 
+    \Pre{(0 $<$ iemePlace) et (iemePlace $\leq$ longueur(cBinaire))} \\
+    \Deb{
+        \Retour{cBinaire.code[iemePlace]}}
+    \end{function}
+
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{ajouterBit(E/S cBinaire:CodeBinaire,E bit:Bit)}
+    \Deb
+        {$cBinaire.longueur \gets longueur(cBinaire)+1$ 
+        $cBinaire.code[longueur(cBinaire)] \gets bit$ 
+        }
+    \end{procedure}
+
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{modifierIemeBit(E/S:cBinaire:CodeBinaire,E:iemePlace:Naturel,bit:Bit)}
+    \Pre{(0 $<$ iemePlace) et (iemePlace $\leq$ longueur(cBinaire))} \\
+    \Deb
+        {$cBinaire.code[iemePlace] \gets bit$ 
+        }
+    \end{procedure}
+
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{supprimerIemeBit(E/S:cBinaire:CodeBinaire,E:iemePlace:Naturel)}
+    \Pre{(0 $<$ iemePlace) et (iemePlace $\leq$ longueur(cBinaire))} \\
+    \Declaration{i:Naturel }
+    \Deb
+        {\Pour{$i \gets iemePlace+1$ \KwA longueur(cBinaire)}{modifierIemeBit(cBinaire, i-1, iemeBit(cBinaire,i))}
+        $cBinaire.longueur \gets longueur(cBinaire)-1$ 
+        }
+    \end{procedure}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{sontEgaux(cBinaire1,cBinaire2:CodeBinaire):Booleen} 
+    \Declaration{egaux: Booleen }
+    \Deb{
+        $egaux \gets Vrai$ 
+        \Si{$longueur(cBinaire1) \neq longueur(cBinaire2) $}{$egaux \gets Faux$ }
+        \Tq{(i $\leq$ longueur(cBinaire1) et egaux)}{
+            \Si{iemeBit(cBinaire1,i) $\neq$ iemeBit(cBinaire2,i)}{$egaux \gets Faux$ }
+        $i \gets i+1$}}
+        \Retour{egaux}
+    \end{function}
+
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{codebinaireEnOctet(cBinaire: CodeBinaire)}
+    \Pre{longueur(cBinaire) $\leq$ 8} \\
+    \Declaration{octet:Octet, i:Entier}
+    \Deb{
+    $octet \gets creeroctet()$
+    \Pour{$i \gets 1$ \KwA longueur(cBinaire)}{ecrireIemeBit(octet,9-i,iemeBit(cBinaire,i)}}
+    \Retour{octet}
+    \end{function}

@@ -1,0 +1,35 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage[hmargin=2cm,vmargin=1cm]{geometry}
+\begin{document}
+    \noindent
+    \thispagestyle{empty} \\
+    Nom: FileDePriorité \\
+    Paramètre: Element \\
+    Utilise: Booléen \\
+    Opérations: \begin{itemize}[label=$\ $, leftmargin=2cm]
+        \item creerFile: $\rightarrow$ File
+        \item estVide: FileDePriorite $\rightarrow$ Booleen
+        \item enfiler: FileDePriorite x Element $\rightarrow$ FileDePriorite
+        \item defiler: FileDePriorite $\nrightarrow$ FileDePriorite
+        \item obtenirElement: FileDePriorite $\nrightarrow$ Element
+    \end{itemize}
+    Axiomes: \begin{itemize}[label=$\- $, leftmargin=2cm]
+        \item estVide(FileDePriorite())
+        \item non estVide(enfiler(f,e))
+        \item defiler(enfiler(creerFile(),e)=creerfile()
+        \item non estVide(f) et defiler(enfiler(f,e))=enfiler(defiler(f),e)
+        \item obtenirElement(enfiler(creerFile(),e))=e
+        \item non estVide(f) et obtenirElement(enfiler(f,e))=obtenirElement(f)
+    \end{itemize}
+    Sémantiques: \begin{itemize}[label=$\-$, leftmargin=2cm]
+        \item defiler: permet de supprimer le dernier élément de la file de priorité
+        \item obtenirElement: indique l'élément de la file sans la modifier
+    \end{itemize}
+    Préconditions: \begin{itemize}[label=$\- $, leftmargin=2cm]
+        \item defiler(f): non(estVide(f))
+        \item obtenirElement(f): non(estVide(f))
+    \end{itemize}
+\end{document}

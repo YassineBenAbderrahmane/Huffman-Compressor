@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{times}
+\usepackage{fancyhdr,graphicx,amsmath,amssymb}
+\usepackage[ruled,vlined, french]{algorithm2e}
+    \SetKwInput{Declaration}{Declaration}
+    \SetKw{KwA}{a}
+    \SetKw{Retour}{retourner}
+    \SetKwBlock{Deb}{debut}{fin}
+    \SetKwIF{Si}{SinonSi}{Sinon}{si}{alors}{sinon si}{sinon}{finsi}
+    \SetKwFor{Tq}{tant que}{faire}{finTantQue}
+    \SetKwFor{Pour}{pour}{faire}{finPour}
+    \SetKwRepeat{Repeter}{repeter}{jusqu’a}
+    \SetKw{Pre}{Precondition(s)}
+\usepackage[hmargin=2cm,vmargin=1cm]{geometry}
+
+\begin{document}
+	\pagestyle{empty}
+	\noindent
+	\input{Conception/C_ArbreDeHuffman.tex}
+
+	\clearpage
+
+	\input{Conception/C_CodeBinaire.tex}
+
+	\clearpage
+
+	\input{Conception/C_FileDePriorite.tex}
+
+	\clearpage
+
+	\input{Conception/C_Octet.tex}
+
+	\clearpage
+
+	\input{Conception/C_Statistiques.tex}
+
+	\clearpage
+
+	\input{Conception/C_TableDeCodage.tex}
+\end{document}

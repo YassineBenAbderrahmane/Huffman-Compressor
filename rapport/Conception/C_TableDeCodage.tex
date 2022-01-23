@@ -1,0 +1,124 @@
+    \section*{TableDeCodage}
+Pour la conception de la table de codage, on observe avec le TAD que l’on doit concevoir un dictionnaire. (Avec un octet en clé, et un code binaire en valeur). On a donc considéré les éléments suivants : \\
+
+        	- On veut une recherche de la clé rapide (en O(1) si possible, O(log n) sinon), en effet, durant la phase de compression du fichier, on va  faire une recherche pour chaque octet du fichier source (de l’ordre du Mo, $ ~= 10^6 $ recherches). \\
+            
+            - L'utilisation de la mémoire doit rester raisonnable (cad éviter de stocker des clés sans valeurs), cependant, on sait que nos clés sont des Octets (1 octet), et nos valeurs des Codes binaires (8 bits maximum). L’utilisation d’un tableau représente donc : 
+            
+	$$ taille_{tableau} = nb_{cle} * taille_{valeur} $$
+	$$ taille_{tableDeCodage} = 256 * taille_{octet} = 256 * 1 = 256 $$
+
+    Notre table de codage va donc être un tableau, et on aura une fonction pour transformer un octet en indice de ce tableau: \\
+    
+    \subsection*{Conception préliminaire}
+    \subsubsection*{Structure}
+        TableDeCodage = tableau[1..256] de CodeBinaire
+
+    \subsubsection*{Signatures}
+	\begin{itemize}[label=$\ $, leftmargin=1cm]
+		\item \textbf{fonction} hash(o: Octet) : [1..256]
+		\item \textbf{fonction} creerTableDeCodage() : TableDeCodage
+		\item \textbf{procedure} ajouterOctet(E/S tdc: TableDeCodage, E octet: Octet, code: CodeBinaire)
+		\begin{itemize}[label=$| $]
+			\item \textbf{précondition:} non elementPresent(tdc, octet)
+		\end{itemize}
+		\item \textbf{procedure} supprimerOctet(E/S tdc: TableDeCodage, E octet: Octet)
+		\begin{itemize}[label=$| $]
+			\item \textbf{précondition:} octetPresent(tdc, octet)
+		\end{itemize}
+		\item \textbf{fonction} recupererCodeBinaire(tdc: TableDeCodage, octet: Octet): CodeBinaire
+		\begin{itemize}[label=$| $]
+			\item \textbf{précondition:} elementPresent(tdc, octet)
+		\end{itemize}
+		\item \textbf{fonction} estVide(tdc: TableDeCodage): Booleen
+		\item \textbf{fonction} octetPresent(tdc: TableDeCodage, octet: Octet): Booleen
+		\item \textbf{fonction} nbOctets(tdc: TableDeCodage): Naturel
+	\end{itemize}
+
+    \subsection*{Conception détaillée}
+    
+    \begin{function}
+        \SetAlgoLined
+        \caption{hash(o : Octet ) :  Naturel} 
+        \Deb{
+            \Retour{OctetEnNaturel(o)} //00 on obtient 0, FF on obtient 255
+        }
+    \end{function}
+    
+    \begin{function}
+        \SetAlgoLined
+        \caption{creerTableDeCodage( ):TableDeCodage}
+        \Declaration{i : Naturel, tdc:TableDeCodage}
+        \Deb{
+            \Pour {i $\gets$ 1 a 256} {
+                tdc[i] $\gets$ CreerCodeBinaire()
+            }
+            \Retour{tdc}
+        }
+    \end{function}
+        
+    \begin{procedure}
+        \SetAlgoLined
+        \caption{ajouterOctet(E/S tdc:TableDeCodage,E o:Octet, code:CodeBinaire)}
+        \Pre{non(elementPresent(tdc,octet))} \\
+        \Deb{ 
+            tdc [hash(octet)] $\gets$ CodeBinaire
+        }
+    \end{procedure}
+        
+    \begin{procedure}
+        \SetAlgoLined
+        \caption{supprimerOctet(E/S tdc:tableDeCodage,E octet:Octet)}
+        \Pre{OctetPresent(tdc,octet)} \\
+        \Deb{
+            ajouterOctet(tdc,octet,CreerCodeBinaire())
+        }
+    \end{procedure}
+        
+    \begin{function}
+        \SetAlgoLined
+        \caption{RecupererCodeBinaire(tdc: TabldeDeCodage,octet:Octet):Naturel} 
+        \Pre{elementPresent(tdc,octet))} \\    
+        \Deb{
+            \Retour{tdc[hash(octet)]}
+        }
+    \end{function}
+        
+    \begin{function}
+        \SetAlgoLined
+        \caption{EstVide( tdc: TableDeCodage):Booleen } 
+        \Declaration{i : Naturel, EstVide :Booleen}
+        \Deb{
+            i $\gets$ 1 \\
+            EstVide $\gets$ Vrai \\
+            \Tq {EstVide et i $\leq$ 256} {
+                \Si {non(tdc[i]=0)} {
+                    EstVide$\gets$Faux
+                }
+                i $\gets$i+1
+            }
+            \Retour{EstVide}
+        }
+    \end{function}
+
+    \begin{function}
+        \SetAlgoLined
+        \caption{OctetPresent( tdc :  TableDeCodage,octet:Octet):Booleen} 
+        \Deb{
+            \Retour{non (RecupererCodeBinaire(tdc,octet)=0))}
+        }
+    \end{function}
+
+    \begin{function}
+        \SetAlgoLined
+        \caption{nbElements( tdc:  TableDeCodage):Naturel} 
+        \Declaration{i,resultat : Naturel}
+        \Deb{
+            \Pour {i $\gets$ 1 a 256}{
+                \Si{non(tdc[i]=0)}{
+                    resultat$\gets$resultat+1
+                }
+            }
+            \Retour{resultat}
+        }
+    \end{function}

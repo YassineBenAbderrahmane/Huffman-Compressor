@@ -1,0 +1,118 @@
+    \section*{Statistiques}
+    On a ici un dictionnaire (clé: Octet, valeur: Naturel). On va donc utiliser une fonction de hash
+    \subsection*{Conception préliminaire}
+    \subsubsection*{Structure}
+
+    Type Statistiques= Tableau [1..256] de Naturel 
+
+    \subsubsection*{Signatures}
+    \begin{itemize}[label=$\ $, leftmargin=1cm]
+        \item \textbf{fonction} hash(o:Octet):Naturel
+        \item \textbf{fonction} statistiques(): Statistiques
+        \item \textbf{procédure} ajouterOctet(E/S stat:Statistiques, E octet:Octet, nbOccur:Naturel)
+        \begin{itemize}[label=$| $, leftmargin=1cm]
+            \item \textbf{précondition} : non estPresent(stat,octet)
+        \end{itemize}
+        \item procedure modifierOctet(E/S stat:Statistiques, E octet:Octet, nbOccur:Naturel)
+        \begin{itemize}[label=$| $, leftmargin=1cm]
+            \item \textbf{précondition} : estPresent(stat,octet)
+        \end{itemize}
+        \item \textbf{fonction} nbElements( stat: Statistiques): Naturel
+        \item \textbf{fonction} estVide (stat: Statistiques) : Booléen
+        \item \textbf{fonction} estPresent( stat: Statistiques, octet: Octet): Booléen
+        \item \textbf{fonction} obtenirOccurence( stat: Statistiques, octet: Octet): Naturel
+        \item \textbf{procédure} supprimerOctet(E/S stat: Statistiques, E octet:Octet)
+        \begin{itemize}[label=$| $, leftmargin=1cm]
+            \item \textbf{précondition} : estPresent(stat,octet)
+        \end{itemize}
+        \item \textbf{procédure} obtenirClefs(E stat:Statistiques, S clefs: Liste $<$Octet$>$)
+	\end{itemize} 
+
+
+    \subsection*{Conception détaillée}
+    
+    \begin{function}
+        \SetAlgoLined
+        \caption{hash(o:Octet): Naturel} 
+        \Deb{
+        \Retour{OctetEnNaturel(o)}} 00 on obtient 0, FF on obtient 255
+    \end{function}
+
+    \begin{function}
+        \SetAlgoLined
+        \caption{statistiques( ) :  Statistiques} 
+        \Declaration \\
+            i : Naturel\\
+            stat:Statistiques\\
+        \Deb{
+        \Pour {i $\gets$ 1 a 256} {stat[i] $\gets$ 0}
+        \Retour{stat}}
+    \end{function}
+
+        
+    \begin{procedure}
+        \SetAlgoLined
+        \caption{ajouterOctet(E/S stat:Statistiques,E octet:Octet,nbOccur:Naturel)}
+        \Pre{non(estPresent(stat,octet))} \\
+        \Deb{
+        stat[hash(octet)] $\gets$ nbOccur }
+    \end{procedure}
+        
+    \begin{procedure}
+        \SetAlgoLined
+        \caption{modifierOctet(E/S stat:Statistiques, E octet:Octet, E nbOccur:Naturel)}
+        \Pre{estPresent(stat,octet))} \\
+        \Deb{
+        stat[hash(octet)] $\gets$ nbOccur }
+    \end{procedure}
+
+    \begin{function}
+        \SetAlgoLined
+        \caption{nbElements( stat:  Statistiques):Naturel} 
+        \Declaration\ i,taille : Naturel\\
+        \Deb{
+        taille $\gets$ 1\\
+        \Pour {i $\gets$ 1 a 256} {\Si{non(stat[i]=0)}{taille$\gets$taille+1}}
+        \Retour{taille}}
+    \end{function}
+
+    \begin{function}
+        \SetAlgoLined
+        \caption{EstVide( stat:  Statistiques):Booleen} 
+        \Deb{
+        
+        \Retour{nbElements(stat)=0}}
+    \end{function}
+
+
+    \begin{function}
+        \SetAlgoLined
+        \caption{EstPresent( stat:  Statistiques,octet:Octet):Booleen} 
+        \Deb{
+        \Retour{obtenirOccurence(stat,octet)!=0)}}
+    \end{function}
+
+    \begin{function}
+        \SetAlgoLined
+        \caption{obtenirOccurence( stat:  Statistiques,octet:Octet):Naturel} 
+        \Deb{
+        \Retour{stat[hash(octet)]}}
+    \end{function}
+
+    \begin{procedure}
+        \SetAlgoLined
+        \caption{supprimerOctet(E/S stat:Statistiques,E octet:Octet)}
+        \Pre{estPresent(stat,octet)} \\
+        \Deb{
+        modifierOctet(stat,octet,0)}
+    \end{procedure}
+
+    \begin{procedure}
+        \SetAlgoLined
+        \caption{obtenirClefs(E stat:Statistiques,S clefs: Liste $<$Octet$>$)}
+        \Declaration\ i : Naturel\\
+        \Deb{
+        //Notre fonction de hash est bijective on parcours tout le tableau \\ pour trouver de clefs ayant une statistique non nulle//\\
+        \Pour {i $\gets$ 1 a 256} 
+        {\Si{stat[i]$>$0}{Liste$\_$ajouter(clefs,naturelEnOctet(i))}}}
+    \end{procedure}

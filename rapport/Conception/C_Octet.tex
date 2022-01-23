@@ -1,0 +1,68 @@
+    \section*{Octet}
+    \subsection*{Conception préliminaire}
+    \subsubsection*{Structure}
+
+    Type Octet = tableau [1..8] de Bit
+
+    \subsubsection*{Signatures}
+    \begin{itemize}[label=$\ $, leftmargin=1cm]
+         \item \textbf{fonction} creerOctet (S: Octet)
+         \item \textbf{procédure} ecrireIemeBit (E/S o : Octet, E i : Naturel, b : Bit)
+            \begin{itemize}[label=$| $, leftmargin=1cm]
+                \item \textbf{précondition} : 1 $\leq$ i $\leq$ 8
+            \end{itemize}
+        \item \textbf{fonction} lireIemeBit (o : Octet, i : Naturel) :Bit
+            \begin{itemize}[label=$| $, leftmargin=1cm]
+                \item \textbf{précondition} : 1 $\leq$ i $\leq$ 8
+            \end{itemize}
+        \item \textbf{fonction} sontEgaux (o1, o2 : Octet) : Booleen
+    \end{itemize}
+
+    \subsection*{Conception détaillée}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{creerOctet( ):Octet}
+    \Declaration{o:Octet, i:Naturel}
+    \Deb {
+        \Pour{$i \gets 1$ \KwA 8}{
+        $o[i] \gets 0$ 
+        }
+        \Retour{o}
+        }
+    \end{function}
+
+    \begin{procedure}
+    \SetAlgoLined
+    \caption{ecrireIemeBit (E/S o : Octet, E i : Naturel, b : Bit)}
+    \Pre{i $\geq$ 1 et i $\leq$ 8} \\
+    \Deb {
+        $o[i] \gets b$ 
+        }
+    \end{procedure}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{lireIemeBit (o : Octet, i : Naturel) :Bit}
+    \Pre{i $\geq$ 1 et i $\leq$ 8} \\
+    \Deb {
+        \Retour{o[i]}
+        }
+    \end{function}
+
+    \begin{function}
+    \SetAlgoLined
+    \caption{sontEgaux (o1, o2 : Octet) : Booleen}
+    \Declaration{i:Naturel, egaux:Booleen}
+    \Deb {
+        $egaux \gets Vrai$ 
+        $i \gets 1$ 
+        \Tq{i $\leq$ 8 et egaux}{
+            \Si{o1[i] $\neq$ o2[i]}{
+                $egaux \gets Faux$
+                }
+            $i \gets i+1$ 
+        }
+        \Retour{egaux}
+        }
+    \end{function}
